@@ -33,6 +33,19 @@ module Api
         end
       end
 
+      def update
+        product = Product.find_by_id(params[:id]);
+        if product.nil?
+          render json: {status:'ERROR', message:'Product id does not exist', data:params[:id]}, status: :unprocessable_entity
+          return;
+        end
+        if product.update_attributes(product_params)
+          render json: {status:'SUCCESS', message:'Product updated', data:product}, status: :ok
+        else
+          render json: {status:'ERROR', message:'Product not updated', data:product.errors}, status: :unprocessable_entity
+        end
+      end
+
       def create
         product = Product.new(product_params)
         if product.save
