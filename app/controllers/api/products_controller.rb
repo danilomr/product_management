@@ -11,8 +11,12 @@ module Api
           render json: {status:'ERROR', message:'Product id is not a numeric value', data:params[:id]}, status: :unprocessable_entity
           return;
         end
-        product = Product.find(params[:id]);
-        render json: {status:'SUCCESS', message:'Product loaded', data:product}, status: :ok
+        product = Product.find_by_id(params[:id]);
+        if product.nil?
+          render json: {status:'ERROR', message:'Product id does not exist', data:params[:id]}, status: :unprocessable_entity
+        else
+          render json: {status:'SUCCESS', message:'Product loaded', data:product}, status: :ok
+        end
       end
 
       def destroy
@@ -20,9 +24,13 @@ module Api
           render json: {status:'ERROR', message:'Product id is not a numeric value', data:params[:id]}, status: :unprocessable_entity
           return;
         end
-        product = Product.find(params[:id]);
-        product.destroy
-        render json: {status:'SUCCESS', message:'Product deleted', data:product}, status: :ok
+        product = Product.find_by_id(params[:id]);
+        if product.nil?
+          render json: {status:'ERROR', message:'Product id does not exist', data:params[:id]}, status: :unprocessable_entity
+        else
+          product.destroy
+          render json: {status:'SUCCESS', message:'Product deleted', data:product}, status: :ok
+        end
       end
 
       def is_number?(obj)
