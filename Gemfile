@@ -50,6 +50,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   # Faker generates random meaningful values to test Create and Update functionalities
   gem 'faker'
+  # Testing library used to check functionalities
+  gem 'rspec-rails'
 end
 
 group :test do
