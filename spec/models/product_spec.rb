@@ -39,6 +39,20 @@ RSpec.describe Product, type: :model do
   end
 
   context 'scope tests' do
+    before(:each) do
+      Product.new(number: 101202, name: 'Training gloves', price:59.99, description: 'Protect your hands while trainign.').save;
+      Product.new(number: 101203, name: 'Winter gloves', price:129.99).save;
+      Product.new(number: 101204, name: 'Wool gloves', description: 'not so comfy').save;
+      Product.new(number: 101333, name: 'Dark beer').save;
+      Product.new(number: 105890, name: 'Metal stick', price:229.99).save;
+    end
 
+    it 'valid count of missing price' do
+      expect(Product.missing_price.size).to eq(2);
+    end
+
+    it 'invalid count of missing description' do
+      expect(Product.missing_description.size).to eq(3);
+    end
   end
 end
