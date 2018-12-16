@@ -33,8 +33,22 @@ module Api
         end
       end
 
+      def create
+        product = Product.new(product_params)
+        if product.save
+          render json: {status:'SUCCESS', message:'Product saved', data:product}, status: :ok
+        else
+          render json: {status:'ERROR', message:'Product not saved', data:product.errors}, status: :unprocessable_entity
+        end
+      end
+
       def is_number?(obj)
         (obj.to_s == obj.to_i.to_s) || (obj.to_s == obj.to_f.to_s)
+      end
+
+      private
+      def product_params
+        params.permit(:number, :name, :price, :description)
       end
     end
   end
